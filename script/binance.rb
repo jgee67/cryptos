@@ -1,6 +1,6 @@
 require 'csv'
 
-BINANCE_API_KEY = "yIQhcDsGApIUoQHcwCGEFRImbmEPJthwlB3VBeR4lNfsOaj5z2nlM2zKdSrDIVtK"
+BINANCE_API_KEY = ENV.fetch('BINANCE_API_KEY')
 
 headers = { "X-MBX-APIKEY"  => BINANCE_API_KEY }
 params = {"symbol" => "BTCUSDT", "limit" => "1000" }
