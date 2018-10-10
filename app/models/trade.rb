@@ -9,6 +9,10 @@
 #  traded_at  :datetime
 #  source     :string
 #
+# Indexes
+#
+#  index_trades_on_traded_at  (traded_at)
+#
 
 class Trade < ActiveRecord::Base
   SOURCES = [

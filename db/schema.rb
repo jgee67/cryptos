@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_10_001117) do
+ActiveRecord::Schema.define(version: 2018_10_10_004625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 2018_10_10_001117) do
     t.string "taker_side"
     t.datetime "traded_at"
     t.string "source"
+    t.index ["traded_at"], name: "index_trades_on_traded_at"
   end
 
 end
