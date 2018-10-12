@@ -32,6 +32,7 @@ gem 'httparty'
 gem 'dotenv-rails'
 gem 'chartkick'
 gem 'groupdate'
+gem 'jquery-rails'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
