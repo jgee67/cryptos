@@ -26,8 +26,14 @@ class Trade < ActiveRecord::Base
     SELL = "SELL".freeze
   ].freeze
 
-  MOVING_AVERAGE_N = 4
-  VISUALIZATION_DAY_LIMIT = 1
+  VISUALIZATION_GROUP_BYS = [
+    DEFAULT_VISUALIZATION_GROUP_BY = GROUP_BY_MINUTE = :minute,
+    GROUP_BY_HOUR = :hour,
+    GROUP_BY_DAY = :day
+  ].freeze
+
+  DEFAULT_MOVING_AVERAGE_N = 4
+  DEFAULT_VISUALIZATION_LIMIT = 1
 
   before_validation :calculate_flow
 
