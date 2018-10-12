@@ -26,6 +26,8 @@ class Trade < ActiveRecord::Base
     SELL = "SELL".freeze
   ].freeze
 
+  MOVING_AVERAGE_N = 4
+
   before_validation :calculate_flow
 
   scope :binance, -> { where(source: BINANCE) }
