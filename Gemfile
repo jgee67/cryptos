@@ -29,7 +29,9 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 gem 'httparty'
-gem "dotenv-rails"
+gem 'dotenv-rails'
+gem 'chartkick'
+gem 'groupdate'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

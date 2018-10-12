@@ -1,2 +1,3 @@
-<%= 'Hello world!' %>
-<% # TODO: Look into chartkick %>
+<% min = Trade.binance.since_n_days_ago(30).minimum(:price) %>
+<% max = Trade.binance.since_n_days_ago(30).maximum(:price) %>
+<%= line_chart Trade.binance.since_n_days_ago(30).group_by_minute(:traded_at).average(:price), min: min, max: max %>
