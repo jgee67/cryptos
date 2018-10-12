@@ -1,7 +1,11 @@
 class TradesController < ApplicationController
   def index
-    grouped_buys = Trade.binance.buyer_side.since_n_days_ago(30).group_by_minute(:traded_at).sum(:flow)
-    grouped_sells = Trade.binance.seller_side.since_n_days_ago(30).group_by_minute(:traded_at).sum(:flow)
+  end
+
+  def chart_data
+    grouped_buys = Trade.binance.buyer_side.group_by_minute(:traded_at, range: Trade::VISUALIZATION_DAY_LIMIT.days.ago..Time.now).sum(:flow)
+    grouped_sells = Trade.binance.seller_side.group_by_minute(:traded_at, range: Trade::VISUALIZATION_DAY_LIMIT.days.ago..Time.now).sum(:flow)
+
     overlapping_minutes = grouped_buys.keys & grouped_sells.keys
 
     result = overlapping_minutes.each_with_object({}).each_with_index do |(minute, result), i|
@@ -16,6 +20,10 @@ class TradesController < ApplicationController
       end
     end
 
-    @binance_chart_data = [{ name: 'flow difference (buys - sells)', data: result[:flow_difference] }, { name: 'moving average', data: result[:moving_average] }]
+    render json: [
+        { name: 'flow difference (buys - sells)', data: result[:flow_difference] },
+        { name: 'moving average', data: result[:moving_average] }
+      ],
+      status: :ok
   end
 end

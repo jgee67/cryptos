@@ -27,13 +27,13 @@ class Trade < ActiveRecord::Base
   ].freeze
 
   MOVING_AVERAGE_N = 4
+  VISUALIZATION_DAY_LIMIT = 1
 
   before_validation :calculate_flow
 
   scope :binance, -> { where(source: BINANCE) }
   scope :bitmex, -> { where(source: BITMEX) }
   scope :coin_api, -> { where(source: COIN_API) }
-  scope :since_n_days_ago, -> (n) { where(traded_at: n.days.ago.beginning_of_day.utc..DateTime.now.utc) }
   scope :buyer_side, -> { where(taker_side: BUY) }
   scope :seller_side, -> { where(taker_side: SELL) }
 
