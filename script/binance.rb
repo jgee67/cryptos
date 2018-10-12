@@ -5,7 +5,7 @@ params = {"symbol" => "BTCUSDT", "limit" => "1000" }
 
 response = HTTParty.get('https://api.binance.com/api/v1/trades', headers: headers, query: params)
 
-latest_traded_at = Trade.binance.order(:traded_at).last.traded_at
+latest_traded_at = Trade.binance.order(:traded_at).last&.traded_at || 0
 
 response.each do |obj|
   traded_at = Time.at(obj["time"].to_f / 1000)

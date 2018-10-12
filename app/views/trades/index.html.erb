@@ -1,3 +1,4 @@
-<% min = Trade.binance.since_n_days_ago(30).minimum(:price) %>
-<% max = Trade.binance.since_n_days_ago(30).maximum(:price) %>
-<%= line_chart Trade.binance.since_n_days_ago(30).group_by_minute(:traded_at).average(:price), min: min, max: max %>
+<% grouped_trades = Trade.binance.buyer_side.since_n_days_ago(30).group_by_minute(:traded_at).sum(:flow) %>
+<% moving_average_data = {} %>
+<% data = [{ name: 'flow', data: grouped_trades }, { name: 'moving average', data: moving_average_data }] %>
+<%= line_chart data, points: false %>
