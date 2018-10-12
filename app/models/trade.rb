@@ -26,8 +26,18 @@ class Trade < ActiveRecord::Base
     SELL = "SELL".freeze
   ].freeze
 
+  before_validation :calculate_flow
+
   scope :binance, -> { where(source: BINANCE) }
   scope :bitmex, -> { where(source: BITMEX) }
   scope :coin_api, -> { where(source: COIN_API) }
   scope :since_n_days_ago, -> (n) { where(traded_at: n.days.ago.beginning_of_day.utc..DateTime.now.utc) }
+
+  private
+
+  def calculate_flow
+    if price.present? && quantity.present?
+      self.flow = price * quantity
+    end
+  end
 end
