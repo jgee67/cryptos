@@ -20,22 +20,40 @@ class Trade < ActiveRecord::Base
   SOURCES = [
     BINANCE  = :binance,
     BITMEX   = :bitmex,
-    COIN_API = :coin_api
+    COIN_API = :coin_api,
   ].freeze
 
   TAKER_SIDES = [
     BUY = "BUY".freeze,
-    SELL = "SELL".freeze
+    SELL = "SELL".freeze,
   ].freeze
 
   VISUALIZATION_GROUP_BYS = [
     DEFAULT_VISUALIZATION_GROUP_BY = GROUP_BY_MINUTE = :minute,
     GROUP_BY_HOUR = :hour,
-    GROUP_BY_DAY = :day
+    GROUP_BY_DAY = :day,
   ].freeze
 
-  DEFAULT_MOVING_AVERAGE_N = 4
-  DEFAULT_VISUALIZATION_LIMIT = 1
+  MOVING_AVERAGE_NS = [
+    1,
+    5,
+    10,
+    DEFAULT_MOVING_AVERAGE_N = 30,
+    60,
+    120,
+    240,
+    480,
+  ]
+
+  WINDOW_SIZES = [
+    1,
+    3,
+    DEFAULT_WINDOW_SIZE = 7,
+    14,
+    21,
+    30,
+    60,
+  ]
 
   before_validation :calculate_flow
 

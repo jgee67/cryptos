@@ -14,5 +14,31 @@
       </div>
     </td>
   </tr>
+  <tr>
+    <th>
+      Moving Average N
+    </th>
+    <td>
+      <div>
+        <% Trade::MOVING_AVERAGE_NS.each do |moving_average_n| %>
+            <%= radio_button_tag(:moving_average_n, moving_average_n, moving_average_n == Trade::DEFAULT_MOVING_AVERAGE_N ? true : false) %>
+            <%= label(:moving_average_n, moving_average_n) %>
+        <% end %>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Window Size (days)
+    </th>
+    <td>
+      <div>
+        <% Trade::WINDOW_SIZES.each do |window_size| %>
+            <%= radio_button_tag(:window_size, window_size, window_size == Trade::DEFAULT_WINDOW_SIZE ? true : false) %>
+            <%= label(:window_size, window_size) %>
+        <% end %>
+      </div>
+    </td>
+  </tr>
 </table>
 <%= button_tag 'Apply', { id: :apply_button } %>
