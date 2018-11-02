@@ -1,1 +1,18 @@
-<%= line_chart chart_data_trades_url, points: false, refresh: 60 %>
+<%= line_chart chart_data_trades_url({ group_by: Trade::DEFAULT_VISUALIZATION_GROUP_BY }), points: false, refresh: 60 %>
+<div>Configuration</div>
+<table>
+  <tr>
+    <th>
+      Group By
+    </th>
+    <td>
+      <div>
+        <% Trade::VISUALIZATION_GROUP_BYS.each do |group_by| %>
+            <%= radio_button_tag(:group_by, group_by, group_by == Trade::DEFAULT_VISUALIZATION_GROUP_BY ? true : false) %>
+            <%= label(:group_by, group_by) %>
+        <% end %>
+      </div>
+    </td>
+  </tr>
+</table>
+<%= button_tag 'Apply', { id: :apply_button } %>

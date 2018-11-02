@@ -1,14 +1,16 @@
 class TradesController < ApplicationController
   def index
+    @group_by ||= params.fetch(:group_by, Trade::DEFAULT_VISUALIZATION_GROUP_BY)
   end
 
   def chart_data
-    range = params.fetch(:limit, Trade::DEFAULT_VISUALIZATION_LIMIT).to_i.days.ago..Time.now
+    # range = params.fetch(:limit, Trade::DEFAULT_VISUALIZATION_LIMIT).to_i.days.ago..Time.now
+    range = Trade.minimum(:traded_at)..Trade.maximum(:traded_at)
     group_by = params.fetch(:group_by, Trade::DEFAULT_VISUALIZATION_GROUP_BY).to_sym
     moving_average_n = params.fetch(:moving_average_n, Trade::DEFAULT_MOVING_AVERAGE_N).to_i
 
-    grouped_buys = Trade.binance.buyer_side.group_by_minute(:traded_at, range: range).sum(:flow)
-    grouped_sells = Trade.binance.seller_side.group_by_minute(:traded_at, range: range).sum(:flow)
+    grouped_buys = Trade.binance.buyer_side.variable_group_by(group_by, :traded_at, range).sum(:flow)
+    grouped_sells = Trade.binance.seller_side.variable_group_by(group_by, :traded_at, range).sum(:flow)
 
     overlapping_minutes = grouped_buys.keys & grouped_sells.keys
 

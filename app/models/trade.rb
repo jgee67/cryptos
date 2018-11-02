@@ -15,6 +15,8 @@
 #
 
 class Trade < ActiveRecord::Base
+  InvalidGroupBy = Class.new(ArgumentError)
+
   SOURCES = [
     BINANCE  = :binance,
     BITMEX   = :bitmex,
@@ -42,6 +44,18 @@ class Trade < ActiveRecord::Base
   scope :coin_api, -> { where(source: COIN_API) }
   scope :buyer_side, -> { where(taker_side: BUY) }
   scope :seller_side, -> { where(taker_side: SELL) }
+  scope :variable_group_by, -> (group_by, field, range) do
+    case group_by
+    when Trade::GROUP_BY_MINUTE
+      group_by_minute(field, range: range)
+    when Trade::GROUP_BY_HOUR
+      group_by_hour(field, range: range)
+    when Trade::GROUP_BY_DAY
+      group_by_day(field, range: range)
+    else
+      raise InvalidGroupBy
+    end
+  end
 
   private
 
