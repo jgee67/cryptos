@@ -3,8 +3,18 @@ class TradesController < ApplicationController
   end
 
   def chart_data
+    window_unit = params.fetch(:window_unit, Trade::DEFAULT_WINDOW_UNIT).to_sym
     window_size = params.fetch(:window_size, Trade::DEFAULT_WINDOW_SIZE).to_i
-    range = window_size.to_i.days.ago..Time.now
+    starting_time =
+      case window_unit
+      when Trade::GROUP_BY_MINUTE
+        window_size.to_i.minutes.ago
+      when Trade::GROUP_BY_HOUR
+        window_size.to_i.hours.ago
+      when Trade::GROUP_BY_DAY
+        window_size.to_i.days.ago
+      end
+    range = starting_time..Time.now
     # range = Trade.minimum(:traded_at)..Trade.maximum(:traded_at)
     group_by = params.fetch(:group_by, Trade::DEFAULT_VISUALIZATION_GROUP_BY).to_sym
     moving_average_numerator = params.fetch(:moving_average_numerator, Trade::DEFAULT_MOVING_AVERAGE_NUMERATOR).to_i

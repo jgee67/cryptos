@@ -31,7 +31,7 @@ class Trade < ActiveRecord::Base
   VISUALIZATION_GROUP_BYS = [
     DEFAULT_VISUALIZATION_GROUP_BY = GROUP_BY_MINUTE = :minute,
     GROUP_BY_HOUR = :hour,
-    GROUP_BY_DAY = :day,
+    DEFAULT_WINDOW_UNIT = GROUP_BY_DAY = :day,
   ].freeze
 
   MOVING_AVERAGE_NUMERATORS = [
@@ -41,7 +41,7 @@ class Trade < ActiveRecord::Base
     12,
     24,
     DEFAULT_MOVING_AVERAGE_NUMERATOR = 30,
-  ]
+  ].freeze
 
   MOVING_AVERAGE_DENOMINATORS = [
     1,
@@ -50,7 +50,7 @@ class Trade < ActiveRecord::Base
     DEFAULT_MOVING_AVERAGE_DENOMINATOR = 30,
     60,
     120,
-  ]
+  ].freeze
 
   WINDOW_SIZES = [
     1,
@@ -60,7 +60,7 @@ class Trade < ActiveRecord::Base
     21,
     30,
     60,
-  ]
+  ].freeze
 
   before_validation :calculate_flow
 
