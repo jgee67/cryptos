@@ -7,7 +7,8 @@ class TradesController < ApplicationController
     range = window_size.to_i.days.ago..Time.now
     # range = Trade.minimum(:traded_at)..Trade.maximum(:traded_at)
     group_by = params.fetch(:group_by, Trade::DEFAULT_VISUALIZATION_GROUP_BY).to_sym
-    moving_average_n = params.fetch(:moving_average_n, Trade::DEFAULT_MOVING_AVERAGE_N).to_i
+    moving_average_numerator = params.fetch(:moving_average_numerator, Trade::DEFAULT_MOVING_AVERAGE_NUMERATOR).to_i
+    moving_average_denominator = params.fetch(:moving_average_denominator, Trade::DEFAULT_MOVING_AVERAGE_DENOMINATOR).to_i
 
     grouped_buys = Trade.binance.buyer_side.variable_group_by(group_by, :traded_at, range).sum(:flow)
     grouped_sells = Trade.binance.seller_side.variable_group_by(group_by, :traded_at, range).sum(:flow)
@@ -19,10 +20,10 @@ class TradesController < ApplicationController
       result[:moving_average] ||= {}
 
       result[:flow_difference][group_by_unit] = grouped_buys[group_by_unit] - grouped_sells[group_by_unit]
-      starting_index = i - (moving_average_n - 1)
+      starting_index = i - (moving_average_numerator - 1)
       if starting_index >= 0
         group_by_units_to_average = overlapping_group_by_units[starting_index..i]
-        result[:moving_average][group_by_unit] = result[:flow_difference].slice(*group_by_units_to_average).values.sum / moving_average_n
+        result[:moving_average][group_by_unit] = result[:flow_difference].slice(*group_by_units_to_average).values.sum / moving_average_denominator
       end
     end
 

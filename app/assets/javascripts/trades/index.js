@@ -7,8 +7,10 @@ $(document).ready(function() {
 
     var group_by_param = $('input[name="group_by"]:checked').val();
     params.push('group_by=' + group_by_param);
-    var moving_average_n_param = $('input[name="moving_average_n"]:checked').val();
-    params.push('moving_average_n=' + moving_average_n_param);
+    var moving_average_numerator_param = $('input[name="moving_average_numerator"]:checked').val();
+    params.push('moving_average_numerator=' + moving_average_numerator_param);
+    var moving_average_denominator_param = $('input[name="moving_average_denominator"]:checked').val();
+    params.push('moving_average_denominator=' + moving_average_denominator_param);
     var window_size_param = $('input[name="window_size"]:checked').val();
     params.push('window_size=' + window_size_param);
 

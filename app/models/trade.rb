@@ -34,15 +34,22 @@ class Trade < ActiveRecord::Base
     GROUP_BY_DAY = :day,
   ].freeze
 
-  MOVING_AVERAGE_NS = [
+  MOVING_AVERAGE_NUMERATORS = [
+    1,
+    4,
+    7,
+    12,
+    24,
+    DEFAULT_MOVING_AVERAGE_NUMERATOR = 30,
+  ]
+
+  MOVING_AVERAGE_DENOMINATORS = [
     1,
     5,
     10,
-    DEFAULT_MOVING_AVERAGE_N = 30,
+    DEFAULT_MOVING_AVERAGE_DENOMINATOR = 30,
     60,
     120,
-    240,
-    480,
   ]
 
   WINDOW_SIZES = [

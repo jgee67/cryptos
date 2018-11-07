@@ -16,13 +16,26 @@
   </tr>
   <tr>
     <th>
-      Moving Average N
+      Moving Average Numerator
     </th>
     <td>
       <div>
-        <% Trade::MOVING_AVERAGE_NS.each do |moving_average_n| %>
-            <%= radio_button_tag(:moving_average_n, moving_average_n, moving_average_n == Trade::DEFAULT_MOVING_AVERAGE_N ? true : false) %>
-            <%= label(:moving_average_n, moving_average_n) %>
+        <% Trade::MOVING_AVERAGE_NUMERATORS.each do |moving_average_numerator| %>
+            <%= radio_button_tag(:moving_average_numerator, moving_average_numerator, moving_average_numerator == Trade::DEFAULT_MOVING_AVERAGE_NUMERATOR ? true : false) %>
+            <%= label(:moving_average_numerator, moving_average_numerator) %>
+        <% end %>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Moving Average Denominator
+    </th>
+    <td>
+      <div>
+        <% Trade::MOVING_AVERAGE_DENOMINATORS.each do |moving_average_denominator| %>
+            <%= radio_button_tag(:moving_average_denominator, moving_average_denominator, moving_average_denominator == Trade::DEFAULT_MOVING_AVERAGE_DENOMINATOR ? true : false) %>
+            <%= label(:moving_average_denominator, moving_average_denominator) %>
         <% end %>
       </div>
     </td>
