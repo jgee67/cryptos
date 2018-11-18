@@ -33,6 +33,7 @@ gem 'dotenv-rails'
 gem 'chartkick'
 gem 'groupdate'
 gem 'jquery-rails'
+gem 'delayed_job_active_record'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'

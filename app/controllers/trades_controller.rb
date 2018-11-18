@@ -14,8 +14,8 @@ class TradesController < ApplicationController
       when Trade::GROUP_BY_DAY
         window_size.to_i.days.ago
       end
-    range = starting_time..Time.now
-    # range = Trade.minimum(:traded_at)..Trade.maximum(:traded_at)
+    # range = starting_time..Time.now
+    range = Trade.minimum(:traded_at)..Trade.maximum(:traded_at)
     group_by = params.fetch(:group_by, Trade::DEFAULT_VISUALIZATION_GROUP_BY).to_sym
     moving_average_numerator = params.fetch(:moving_average_numerator, Trade::DEFAULT_MOVING_AVERAGE_NUMERATOR).to_i
     moving_average_denominator = params.fetch(:moving_average_denominator, Trade::DEFAULT_MOVING_AVERAGE_DENOMINATOR).to_i
