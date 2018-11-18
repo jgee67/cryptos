@@ -21,12 +21,14 @@ class TradesController < ApplicationController
 
     grouped_buys = Trade.binance.buyer_side.variable_group_by(group_by, :traded_at, range).sum(:flow)
     grouped_sells = Trade.binance.seller_side.variable_group_by(group_by, :traded_at, range).sum(:flow)
+    grouped_prices = Trade.binance.variable_group_by(group_by, :traded_at, range).average(:price)
 
     overlapping_group_by_units = grouped_buys.keys & grouped_sells.keys
 
     result = overlapping_group_by_units.each_with_object({}).each_with_index do |(group_by_unit, result), i|
       result[:flow_difference] ||= {}
       result[:moving_average] ||= {}
+      result[:average_price] ||= {}
 
       result[:flow_difference][group_by_unit] = grouped_buys[group_by_unit] - grouped_sells[group_by_unit]
       starting_index = i - (moving_average_numerator - 1)
@@ -36,9 +38,12 @@ class TradesController < ApplicationController
       end
     end
 
+    result[:average_price] = grouped_prices
+
     render json: [
         { name: 'Flow (buys - sells)', data: result[:flow_difference] },
-        { name: 'Moving Average', data: result[:moving_average] }
+        { name: 'Moving Average', data: result[:moving_average] },
+        { name: 'Price', data: result[:average_price] }
       ],
       status: :ok
   end
