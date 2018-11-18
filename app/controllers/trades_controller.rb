@@ -7,6 +7,8 @@ class TradesController < ApplicationController
     window_size = params.fetch(:window_size, Trade::DEFAULT_WINDOW_SIZE).to_i
     starting_time =
       case window_unit
+      when Trade::GROUP_BY_SECOND
+        window_size.to_i.seconds.ago
       when Trade::GROUP_BY_MINUTE
         window_size.to_i.minutes.ago
       when Trade::GROUP_BY_HOUR

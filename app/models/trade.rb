@@ -29,6 +29,7 @@ class Trade < ActiveRecord::Base
   ].freeze
 
   VISUALIZATION_GROUP_BYS = [
+    GROUP_BY_SECOND = :second,
     DEFAULT_VISUALIZATION_GROUP_BY = GROUP_BY_MINUTE = :minute,
     GROUP_BY_HOUR = :hour,
     DEFAULT_WINDOW_UNIT = GROUP_BY_DAY = :day,
