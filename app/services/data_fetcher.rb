@@ -1,6 +1,6 @@
 class DataFetcher
   BINANCE_API_KEY = ENV.fetch('BINANCE_API_KEY')
-  WAIT_TIME_IN_MINUTES = 3
+  WAIT_TIME_IN_MINUTES = 1
 
   def self.fetch_data
     headers = { "X-MBX-APIKEY"  => BINANCE_API_KEY }
