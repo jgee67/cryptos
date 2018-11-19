@@ -72,6 +72,8 @@ class Trade < ActiveRecord::Base
   scope :seller_side, -> { where(taker_side: SELL) }
   scope :variable_group_by, -> (group_by, field, range) do
     case group_by
+    when Trade::GROUP_BY_SECOND
+      group_by_second(field, range: range)
     when Trade::GROUP_BY_MINUTE
       group_by_minute(field, range: range)
     when Trade::GROUP_BY_HOUR
