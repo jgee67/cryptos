@@ -21,9 +21,10 @@ class TradesController < ApplicationController
     moving_average_numerator = params.fetch(:moving_average_numerator, Trade::DEFAULT_MOVING_AVERAGE_NUMERATOR).to_i
     moving_average_denominator = params.fetch(:moving_average_denominator, Trade::DEFAULT_MOVING_AVERAGE_DENOMINATOR).to_i
 
-    grouped_buys = Trade.binance.buyer_side.variable_group_by(group_by, :traded_at, range).sum(:flow)
-    grouped_sells = Trade.binance.seller_side.variable_group_by(group_by, :traded_at, range).sum(:flow)
-    grouped_prices = Trade.binance.variable_group_by(group_by, :traded_at, range).average(:price)
+    base_query = Trade.binance.where(traded_at: starting_time..Time.now).variable_group_by(group_by, :traded_at, range)
+    grouped_buys = base_query.buyer_side.sum(:flow)
+    grouped_sells = base_query.seller_side.sum(:flow)
+    grouped_prices = base_query.average(:price)
 
     overlapping_group_by_units = grouped_buys.keys & grouped_sells.keys
 
