@@ -8,6 +8,7 @@
 #  taker_side :string
 #  traded_at  :datetime
 #  source     :string
+#  flow       :float
 #
 # Indexes
 #
