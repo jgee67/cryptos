@@ -1,7 +1,7 @@
 class TradesController < ApplicationController
   def index
-    export_dates_hash = Trade.group_by_month(:traded_at).minimum(:traded_at).keys.each_with_object({}) do |first_of_month, result|
-      result[first_of_month] = first_of_month.at_end_of_month
+    export_dates_hash = Trade.group_by_week(:traded_at).minimum(:traded_at).keys.each_with_object({}) do |first_of_week, result|
+      result[first_of_week] = (first_of_week + 1.day).at_end_of_week
     end
 
     render template: 'trades/index', locals: { export_dates_hash: export_dates_hash }
@@ -64,7 +64,7 @@ class TradesController < ApplicationController
         filename =
         trades = Trade.where(traded_at: starting_time..ending_time)
 
-        send_data CsvGenerator.new(trades).generate, filename: "#{starting_time.strftime("%Y_%B")}.csv"
+        send_data CsvGenerator.new(trades).generate, filename: "#{starting_time.strftime("%Y_%b%d")}_#{ending_time.strftime("%Y_%b%d")}.csv"
       end
     end
   end
