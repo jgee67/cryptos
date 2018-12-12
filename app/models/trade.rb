@@ -18,6 +18,8 @@
 class Trade < ActiveRecord::Base
   InvalidGroupBy = Class.new(ArgumentError)
 
+  CSV_COLUMNS = %w{ traded_at taker_side price quantity flow }
+
   SOURCES = [
     BINANCE  = :binance,
     BITMEX   = :bitmex,

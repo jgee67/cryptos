@@ -68,3 +68,7 @@
   </tr>
 </table>
 <%= button_tag 'Apply', { id: :apply_button } %>
+
+<% export_dates_hash.each do |starting_time, ending_time| %>
+  <%= export_button(starting_time: starting_time, ending_time: ending_time) %>
+<% end %>

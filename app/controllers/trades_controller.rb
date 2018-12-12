@@ -1,5 +1,10 @@
 class TradesController < ApplicationController
   def index
+    export_dates_hash = Trade.group_by_month(:traded_at).minimum(:traded_at).keys.each_with_object({}) do |first_of_month, result|
+      result[first_of_month] = first_of_month.at_end_of_month
+    end
+
+    render template: 'trades/index', locals: { export_dates_hash: export_dates_hash }
   end
 
   def chart_data
@@ -49,5 +54,18 @@ class TradesController < ApplicationController
         { name: 'Price', data: result[:average_price] }
       ],
       status: :ok
+  end
+
+  def export
+    respond_to do |format|
+      format.csv do
+        starting_time = params.fetch(:starting_time).to_datetime
+        ending_time = params.fetch(:ending_time).to_datetime
+        filename =
+        trades = Trade.where(traded_at: starting_time..ending_time)
+
+        send_data CsvGenerator.new(trades).generate, filename: "#{starting_time.strftime("%Y_%B")}.csv"
+      end
+    end
   end
 end
