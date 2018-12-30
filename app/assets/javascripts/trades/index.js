@@ -20,7 +20,7 @@ $(document).ready(function() {
     var window_size_param = $('input[name="window_size"]:checked').val();
     params.push('window_size=' + window_size_param);
     params.push('start_date=' + startTime);
-    params.push('end_date=' + startTime);
+    params.push('end_date=' + endTime);
 
     var newUrl = baseUrl + '?' + params.join('&');
     chart.updateData(newUrl);
