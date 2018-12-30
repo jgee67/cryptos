@@ -56,7 +56,7 @@
     </th>
     <td>
       <div>
-        <input class="datetimepicker" id="datepicker-end" value=<%= Trade::DEFAULT_WINDOW_SIZE.days.from_now %>></input>
+        <input class="datetimepicker" id="datepicker-end" value=<%= Trade::DEFAULT_WINDOW_SIZE.days.from_now.at_end_of_day %>></input>
       </div>
     </td>
   </tr>
