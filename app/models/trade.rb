@@ -56,15 +56,7 @@ class Trade < ActiveRecord::Base
     120,
   ].freeze
 
-  WINDOW_SIZES = [
-    1,
-    3,
-    DEFAULT_WINDOW_SIZE = 7,
-    14,
-    21,
-    30,
-    60,
-  ].freeze
+  DEFAULT_WINDOW_SIZE = 1
 
   before_validation :calculate_flow
 

@@ -9,24 +9,14 @@ class TradesController < ApplicationController
 
   def chart_data
     window_unit = params.fetch(:window_unit, Trade::DEFAULT_WINDOW_UNIT).to_sym
-    window_size = params.fetch(:window_size, Trade::DEFAULT_WINDOW_SIZE).to_i
-    starting_time =
-      case window_unit
-      when Trade::GROUP_BY_SECOND
-        window_size.to_i.seconds.ago
-      when Trade::GROUP_BY_MINUTE
-        window_size.to_i.minutes.ago
-      when Trade::GROUP_BY_HOUR
-        window_size.to_i.hours.ago
-      when Trade::GROUP_BY_DAY
-        window_size.to_i.days.ago
-      end
-    range = starting_time..Time.now
+    starting_time = params.fetch(:start_date, Date.today).to_date
+    ending_time = params.fetch(:end_date, Trade::DEFAULT_WINDOW_SIZE.days.from_now).to_date
+    range = starting_time..ending_time
     group_by = params.fetch(:group_by, Trade::DEFAULT_VISUALIZATION_GROUP_BY).to_sym
     moving_average_numerator = params.fetch(:moving_average_numerator, Trade::DEFAULT_MOVING_AVERAGE_NUMERATOR).to_i
     moving_average_denominator = params.fetch(:moving_average_denominator, Trade::DEFAULT_MOVING_AVERAGE_DENOMINATOR).to_i
 
-    base_query = Trade.binance.where(traded_at: starting_time..Time.now).variable_group_by(group_by, :traded_at, range)
+    base_query = Trade.binance.where(traded_at: range).variable_group_by(group_by, :traded_at, range)
     grouped_buys = base_query.buyer_side.sum(:flow)
     grouped_sells = base_query.seller_side.sum(:flow)
     grouped_prices = base_query.average(:price)

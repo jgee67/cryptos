@@ -33,6 +33,7 @@ gem 'dotenv-rails'
 gem 'chartkick'
 gem 'groupdate'
 gem 'jquery-rails'
+gem 'jquery-datetimepicker-rails', '~> 2.4', '>= 2.4.1.0'
 gem 'delayed_job_active_record'
 
 # Use ActiveStorage variant

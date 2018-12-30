@@ -55,14 +55,21 @@
   </tr>
   <tr>
     <th>
-      Window Size
+      Window Start
     </th>
     <td>
       <div>
-        <% Trade::WINDOW_SIZES.each do |window_size| %>
-            <%= radio_button_tag(:window_size, window_size, window_size == Trade::DEFAULT_WINDOW_SIZE ? true : false) %>
-            <%= label(:window_size, window_size) %>
-        <% end %>
+        <input class="datetimepicker" id="datepicker-start" value=<%= Date.today %>></input>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <th>
+      Window End
+    </th>
+    <td>
+      <div>
+        <input class="datetimepicker" id="datepicker-end" value=<%= Trade::DEFAULT_WINDOW_SIZE.days.from_now %>></input>
       </div>
     </td>
   </tr>
