@@ -8,7 +8,6 @@ class TradesController < ApplicationController
   end
 
   def chart_data
-    window_unit = params.fetch(:window_unit, Trade::DEFAULT_WINDOW_UNIT).to_sym
     starting_time = params.fetch(:start_date, Date.today).to_date
     ending_time = params.fetch(:end_date, Trade::DEFAULT_WINDOW_SIZE.days.from_now).to_date
     range = starting_time..ending_time

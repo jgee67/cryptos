@@ -42,19 +42,6 @@
   </tr>
   <tr>
     <th>
-      Window Unit
-    </th>
-    <td>
-      <div>
-        <% Trade::VISUALIZATION_GROUP_BYS.each do |window_unit| %>
-            <%= radio_button_tag(:window_unit, window_unit, window_unit == Trade::DEFAULT_WINDOW_UNIT ? true : false) %>
-            <%= label(:window_unit, window_unit) %>
-        <% end %>
-      </div>
-    </td>
-  </tr>
-  <tr>
-    <th>
       Window Start
     </th>
     <td>

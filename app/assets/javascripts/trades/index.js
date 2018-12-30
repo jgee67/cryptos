@@ -15,10 +15,6 @@ $(document).ready(function() {
     params.push('moving_average_numerator=' + moving_average_numerator_param);
     var moving_average_denominator_param = $('input[name="moving_average_denominator"]:checked').val();
     params.push('moving_average_denominator=' + moving_average_denominator_param);
-    var window_unit_param = $('input[name="window_unit"]:checked').val();
-    params.push('window_unit=' + window_unit_param);
-    var window_size_param = $('input[name="window_size"]:checked').val();
-    params.push('window_size=' + window_size_param);
     params.push('start_date=' + startTime);
     params.push('end_date=' + endTime);
 
