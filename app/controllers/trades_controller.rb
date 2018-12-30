@@ -8,8 +8,8 @@ class TradesController < ApplicationController
   end
 
   def chart_data
-    starting_time = params.fetch(:start_date, Date.today).to_date
-    ending_time = params.fetch(:end_date, Trade::DEFAULT_WINDOW_SIZE.days.from_now.at_end_of_day).to_date
+    starting_time = params.fetch(:start_date, Date.today).to_date.at_beginning_of_day
+    ending_time = params.fetch(:end_date, Trade::DEFAULT_WINDOW_SIZE.days.from_now).to_date.at_end_of_day
     range = starting_time..ending_time
     group_by = params.fetch(:group_by, Trade::DEFAULT_VISUALIZATION_GROUP_BY).to_sym
     moving_average_numerator = params.fetch(:moving_average_numerator, Trade::DEFAULT_MOVING_AVERAGE_NUMERATOR).to_i
