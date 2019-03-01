@@ -1,8 +1,16 @@
 class DataFetcher
   BINANCE_API_KEY = ENV.fetch('BINANCE_API_KEY')
+  BITMEX_API_KEY = ENV.fetch('BITMEX_API_KEY')
+  BITMEX_API_SECRET = ENV.fetch('BITMEX_API_SECRET')
   WAIT_TIME_IN_MINUTES = 1
 
   def self.fetch_data
+    response = fetch_binance_data
+
+    return response.code
+  end
+
+  def self.fetch_binance_data
     headers = { "X-MBX-APIKEY"  => BINANCE_API_KEY }
     params = {"symbol" => "BTCUSDT", "limit" => "1000" }
 
@@ -28,7 +36,37 @@ class DataFetcher
       end
     end
 
-    return response.code
+    response
+  end
+
+  def self.fetch_bitmex_data
+    expires = 1.minute.from_now.to_i.to_s
+
+    params = { 'filter' => { 'symbol' => "XBTUSD" }, 'count' => 500 }
+    headers = { "api-expires"  => expires, 'api-key' => BITMEX_API_KEY, 'api-signature' => bitmex_api_signature(expires, params) }
+
+    response = HTTParty.get('https://www.bitmex.com' + bitmex_path(params), headers: headers)
+
+    # if response.code == 200
+    #   latest_traded_at = Trade.binance.order(:traded_at).last&.traded_at || 0
+
+    #   response.each do |obj|
+    #     traded_at = Time.at(obj["time"].to_f / 1000)
+
+    #     if traded_at > latest_traded_at
+    #       taker_side = obj["isBuyerMaker"] ? Trade::SELL : Trade::BUY
+
+    #       Trade.create(
+    #         price: "%f" % obj["price"],
+    #         quantity: "%f" % obj["qty"],
+    #         taker_side: taker_side,
+    #         traded_at: traded_at,
+    #         source: Trade::BINANCE
+    #       )
+    #     end
+    #   end
+    # end
+    response
   end
 
   def self.queue_job
@@ -41,5 +79,23 @@ class DataFetcher
     else
       DataFetcher.delay(run_at: WAIT_TIME_IN_MINUTES.minutes.from_now).queue_job
     end
+  end
+
+  def self.bitmex_path(params)
+    query_params = params.each_with_object([]) do |(key, value), result|
+      result << key.to_s + '=' + ERB::Util.url_encode(value.to_json)
+    end.join('&')
+    path = '/api/v1/trade'
+    path += '?' + query_params if query_params.present?
+    path
+  end
+
+  def self.bitmex_api_signature(expires, params)
+    path = bitmex_path(params)
+    secret = BITMEX_API_SECRET
+    verb = 'GET'
+    data = verb + path + expires
+    digest = OpenSSL::Digest.new('sha256')
+    OpenSSL::HMAC.hexdigest(digest, secret, data)
   end
 end
