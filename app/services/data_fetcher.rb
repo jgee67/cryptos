@@ -72,7 +72,7 @@ class DataFetcher
 
           Trade.create(
             price: "%f" % obj["price"],
-            quantity: "%f" % obj["size"],
+            quantity: "%f" % obj["homeNotional"],
             taker_side: taker_side,
             traded_at: traded_at,
             source: Trade::BITMEX
