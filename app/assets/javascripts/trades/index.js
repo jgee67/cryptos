@@ -2,9 +2,12 @@ $(document).ready(function() {
   $(".datetimepicker").datetimepicker();
 
   $("#apply_button").click(function() {
-    var chart = Chartkick.charts["chart-1"];
-    var dataUrl = chart.getDataSource();
-    var baseUrl = dataUrl.slice(0, dataUrl.indexOf('?'))
+    var binanceChart = Chartkick.charts["chart-1"];
+    var binanceDataUrl = binanceChart.getDataSource();
+    var binanceBaseUrl = binanceDataUrl.slice(0, binanceDataUrl.indexOf('?'));
+    var bitmexChart = Chartkick.charts["chart-2"];
+    var bitmexDataUrl = bitmexChart.getDataSource();
+    var bitmexBaseUrl = bitmexDataUrl.slice(0, bitmexDataUrl.indexOf('?'));
     var params = [];
     var startTime = $("#datepicker-start").val();
     var endTime = $("#datepicker-end").val();
@@ -18,7 +21,9 @@ $(document).ready(function() {
     params.push('start_date=' + startTime);
     params.push('end_date=' + endTime);
 
-    var newUrl = baseUrl + '?' + params.join('&');
-    chart.updateData(newUrl);
+    var newBinanceUrl = binanceBaseUrl + '?' + params.join('&');
+    binanceChart.updateData(newBinanceUrl);
+    var newBitmexUrl = bitmexBaseUrl + '?' + params.join('&');
+    bitmexChart.updateData(newBitmexUrl);
   });
 });
