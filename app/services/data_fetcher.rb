@@ -69,10 +69,12 @@ class DataFetcher
 
         if traded_at > latest_traded_at
           taker_side = obj["side"] == "Sell" ? Trade::SELL : Trade::BUY
+          price = ("%f" % obj["price"]).to_f
+          quantity = ("%f" % obj["foreignNotional"]).to_f / price
 
           Trade.create(
-            price: "%f" % obj["price"],
-            quantity: "%f" % obj["homeNotional"],
+            price: price,
+            quantity: quantity,
             taker_side: taker_side,
             traded_at: traded_at,
             source: Trade::BITMEX
