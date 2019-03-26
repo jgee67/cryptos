@@ -56,7 +56,7 @@ class DataFetcher
   def self.fetch_bitmex_data
     expires = 1.minute.from_now.to_i.to_s
 
-    latest_traded_at = Trade.bitmex.order(:traded_at).last&.traded_at || 1.minute.ago
+    latest_traded_at = 1.minute.ago
     params = { 'filter' => { 'symbol' => "XBTUSD", 'startTime' => latest_traded_at.strftime("%Y-%m-%d %H:%M") }, 'count' => 500 }
     headers = { "api-expires"  => expires, 'api-key' => BITMEX_API_KEY, 'api-signature' => bitmex_api_signature(expires, params) }
 

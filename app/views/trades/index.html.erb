@@ -1,4 +1,6 @@
+<div>Binance</div>
 <%= line_chart binance_chart_data_trades_url({ group_by: Trade::DEFAULT_VISUALIZATION_GROUP_BY }), points: false, refresh: 60 %>
+<div>Bitmex</div>
 <%= line_chart bitmex_chart_data_trades_url({ group_by: Trade::DEFAULT_VISUALIZATION_GROUP_BY }), points: false, refresh: 60 %>
 <div>Configuration</div>
 <table>
